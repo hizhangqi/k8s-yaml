@@ -1,0 +1,35 @@
+# 创建一个 Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-namespace
+---
+# 创建一个 Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  namespace: my-namespace
+  labels:
+    app: my-app
+spec:
+  containers:
+    - name: my-container
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+---
+# 创建一个 Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: my-namespace
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP

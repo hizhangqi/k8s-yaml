@@ -1,0 +1,13 @@
+#方法1
+kubectl delete -f resources.yaml
+  
+#方法2
+kubectl delete pod my-pod -n my-namespace
+kubectl delete service my-service -n my-namespace
+kubectl delete namespace my-namespace
+
+#方法3
+kubectl delete pod my-pod service my-service namespace my-namespace -n my-namespace
+
+#方法4
+kubectl delete namespace my-namespace
