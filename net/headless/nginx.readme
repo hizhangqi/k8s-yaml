@@ -1,0 +1,7 @@
+#安装
+kubectl apply -f /opt/k8s/k8s-yaml/net/headless/nginx.yaml
+#删除
+kubectl delete -f /opt/k8s/k8s-yaml/net/headless/nginx.yaml --force --wait=false
+  
+[root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
+
