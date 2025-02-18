@@ -1,3 +1,5 @@
+#安装
+kubectl apply -f /opt/k8s/k8s-yaml/net/clusterip/nginx.yaml
 #方法1
 kubectl delete -f /opt/k8s/k8s-yaml/net/clusterip/nginx.yaml --force --wait=false
   
@@ -14,40 +16,15 @@ kubectl delete namespace k8s-net-test
 
 
 #--grace-period=0 --force --wait=false
-[root@k8s01 clusterip]# kubectl get all -A -owide
-NAMESPACE      NAME                                READY   STATUS    RESTARTS         AGE     IP               NODE    NOMINATED NODE   READINESS GATES
-kube-flannel   pod/kube-flannel-ds-fc5mg           1/1     Running   0                175m    172.16.166.139   k8s02   <none>           <none>
-kube-flannel   pod/kube-flannel-ds-m9jgr           1/1     Running   0                175m    172.16.166.138   k8s01   <none>           <none>
-kube-flannel   pod/kube-flannel-ds-qfvf4           1/1     Running   0                175m    172.16.166.140   k8s03   <none>           <none>
-kube-system    pod/coredns-66f779496c-94kqj        1/1     Running   0                5h29m   10.244.1.19      k8s02   <none>           <none>
-kube-system    pod/coredns-66f779496c-n2qjz        1/1     Running   0                5h29m   10.244.1.20      k8s02   <none>           <none>
-kube-system    pod/etcd-k8s01                      1/1     Running   6                5h29m   172.16.166.138   k8s01   <none>           <none>
-kube-system    pod/kube-apiserver-k8s01            1/1     Running   49 (167m ago)    5h29m   172.16.166.138   k8s01   <none>           <none>
-kube-system    pod/kube-controller-manager-k8s01   1/1     Running   106 (168m ago)   5h29m   172.16.166.138   k8s01   <none>           <none>
-kube-system    pod/kube-proxy-cnqd7                1/1     Running   0                4h54m   172.16.166.139   k8s02   <none>           <none>
-kube-system    pod/kube-proxy-dqfwb                1/1     Running   0                4h54m   172.16.166.140   k8s03   <none>           <none>
-kube-system    pod/kube-proxy-vzp5j                1/1     Running   0                5h29m   172.16.166.138   k8s01   <none>           <none>
-kube-system    pod/kube-scheduler-k8s01            1/1     Running   105 (168m ago)   5h29m   172.16.166.138   k8s01   <none>           <none>
-k8s-net-test   pod/nginx-pod                          1/1     Running   0                115s    10.244.2.11      k8s03   <none>           <none>
 
-NAMESPACE      NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE     SELECTOR
-default        service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP                  5h29m   <none>
-kube-system    service/kube-dns     ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   5h29m   k8s-app=kube-dns
-k8s-net-test   service/nginx-service   ClusterIP   10.96.131.186   <none>        80/TCP                   115s    app=nginx-app
+[root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
+k8s-net-test           pod/nginx-pod                                    1/1     Running   0          92s   10.244.2.14      k8s03   <none>           <none>
+k8s-net-test           service/nginx-service               ClusterIP   10.96.161.176   <none>        80/TCP                   92s   app=nginx-app
 
-NAMESPACE      NAME                             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE     CONTAINERS     IMAGES                                                       SELECTOR
-kube-flannel   daemonset.apps/kube-flannel-ds   3         3         3       3            3           <none>                   175m    kube-flannel   rancher/mirrored-flannelcni-flannel:v0.18.0                  app=flannel
-kube-system    daemonset.apps/kube-proxy        3         3         3       3            3           kubernetes.io/os=linux   5h29m   kube-proxy     registry.aliyuncs.com/google_containers/kube-proxy:v1.28.2   k8s-app=kube-proxy
-
-NAMESPACE     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                                    SELECTOR
-kube-system   deployment.apps/coredns   2/2     2            2           5h29m   coredns      registry.aliyuncs.com/google_containers/coredns:v1.10.1   k8s-app=kube-dns
-
-NAMESPACE     NAME                                 DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                                                    SELECTOR
-kube-system   replicaset.apps/coredns-66f779496c   2         2         2       5h29m   coredns      registry.aliyuncs.com/google_containers/coredns:v1.10.1   k8s-app=kube-dns,pod-template-hash=66f779496c
 
 #service 访问 pod
 #各个节点都可以访问
-[root@k8s01 clusterip]# curl 10.96.131.186
+[root@k8s01 clusterip]# curl 10.96.231.198
 <!DOCTYPE html>
 <html>
 <head>
