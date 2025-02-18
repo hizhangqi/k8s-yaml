@@ -8,13 +8,13 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: k8s-net-pod
   namespace: k8s-net-test
   labels:
-    app: my-app
+    app: k8s-net-app
 spec:
   containers:
-    - name: my-container
+    - name: k8s-net-container
       image: nginx:latest
       ports:
         - containerPort: 80
@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-service
+  name: k8s-net-service
   namespace: k8s-net-test
 spec:
   selector:
-    app: my-app
+    app: k8s-net-app
   ports:
     - protocol: TCP
       port: 80
