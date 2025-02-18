@@ -4,17 +4,17 @@ kubectl apply -f /opt/k8s/k8s-yaml/net/loadBalancer/nginx.yaml
 kubectl delete -f /opt/k8s/k8s-yaml/net/loadBalancer/nginx.yaml --force --wait=false
   
 [root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
-k8s-net-test           pod/nginx-deployment-6c9fd56bbc-hhc4n            1/1     Running   0          27s    10.244.1.29      k8s02   <none>           <none>
-k8s-net-test           pod/nginx-deployment-6c9fd56bbc-l77bl            1/1     Running   0          27s    10.244.2.20      k8s03   <none>           <none>
-k8s-net-test           pod/nginx-deployment-6c9fd56bbc-qscvd            1/1     Running   0          27s    10.244.1.30      k8s02   <none>           <none>
-k8s-net-test           pod/nginx-deployment-6c9fd56bbc-z67lv            1/1     Running   0          27s    10.244.2.21      k8s03   <none>           <none>
-k8s-net-test           service/nginx-service               LoadBalancer   10.96.82.184    <pending>     80:30080/TCP             27s   app=nginx-app
-k8s-net-test           deployment.apps/nginx-deployment            4/4     4            4           27s   nginx                       nginx:latest                                              app=nginx-app
-k8s-net-test           replicaset.apps/nginx-deployment-6c9fd56bbc            4         4         4       27s     nginx                       nginx:latest                                              app=nginx-app,pod-template-hash=6c9fd56bbc
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-d2t2m            1/1     Running   0          106s   10.244.1.33      k8s02   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-dhwh8            1/1     Running   0          106s   10.244.2.24      k8s03   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-kg86d            1/1     Running   0          106s   10.244.2.25      k8s03   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-qlpcg            1/1     Running   0          106s   10.244.1.34      k8s02   <none>           <none>
+k8s-net-test           service/nginx-service               LoadBalancer   10.96.40.191    <pending>     80:32046/TCP             106s   app=nginx-app
+k8s-net-test           deployment.apps/nginx-deployment            4/4     4            4           106s   nginx                       nginx:latest                                              app=nginx-app
+k8s-net-test           replicaset.apps/nginx-deployment-6c9fd56bbc            4         4         4       106s    nginx                       nginx:latest                                              app=nginx-app,pod-template-hash=6c9fd56bbc
 
 
 #service 访问 pod #各个节点都可以访问
-[root@k8s01 ~]# curl 10.96.82.184
+[root@k8s01 ~]# curl 10.96.40.191
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +40,7 @@ Commercial support is available at
 </html>
 
 #通过pod IP访问各个节点都可以访问
-[root@k8s01 ~]# curl 10.244.1.29
+[root@k8s01 ~]# curl 10.244.1.33
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,21 +65,21 @@ Commercial support is available at
 </body>
 </html>
 
-kubectl exec -it nginx-deployment-6c9fd56bbc-hhc4n -n k8s-net-test -- /bin/bash
+kubectl exec -it nginx-deployment-6c9fd56bbc-d2t2m -n k8s-net-test -- /bin/bash
 curl 10.96.82.184
-curl 10.244.1.29
-curl 10.244.1.30
-curl 10.244.2.20
-curl 10.244.2.21
+curl 10.244.1.33
+curl 10.244.1.34
+curl 10.244.2.24
+curl 10.244.2.25
 
 
 外网访问 通过nodeIp + nodePort
-curl http://172.16.166.138:30080
-curl http://172.16.166.139:30080
-curl http://172.16.166.140:30080
+curl http://172.16.166.138:32046
+curl http://172.16.166.139:32046
+curl http://172.16.166.140:32046
 
 #查询日志
-kubectl logs -f nginx-deployment-6c9fd56bbc-hhc4n -n k8s-net-test
+kubectl logs -f nginx-deployment-6c9fd56bbc-d2t2m -n k8s-net-test
 如何集群访问呢？
 
 

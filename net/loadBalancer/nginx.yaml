@@ -40,5 +40,5 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
-#  sessionAffinity: None
-  externalTrafficPolicy: Local
+  sessionAffinity: None  # 禁用会话亲和性
+  externalTrafficPolicy: Local  # 流量只分配到本地 Pod
