@@ -2,6 +2,13 @@
 kubectl apply -f /opt/k8s/k8s-yaml/net/headless/nginx.yaml
 #删除
 kubectl delete -f /opt/k8s/k8s-yaml/net/headless/nginx.yaml --force --wait=false
-  
+
 [root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-5pc2j            1/1     Running   0          2m59s   10.244.1.41      k8s02   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-b5f26            1/1     Running   0          2m59s   10.244.1.42      k8s02   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-jfrbq            1/1     Running   0          2m59s   10.244.2.32      k8s03   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-s9gbv            1/1     Running   0          2m59s   10.244.2.33      k8s03   <none>           <none>
+k8s-net-test           service/nginx-service               ClusterIP   None            <none>        80/TCP                   2m59s   app=nginx-app
+k8s-net-test           deployment.apps/nginx-deployment            4/4     4            4           2m59s   nginx                       nginx:latest                                              app=nginx-app
+k8s-net-test           replicaset.apps/nginx-deployment-6c9fd56bbc            4         4         4       2m59s   nginx                       nginx:latest                                              app=nginx-app,pod-template-hash=6c9fd56bbc
 
