@@ -2,12 +2,12 @@
 kubectl delete -f /opt/k8s/k8s-yaml/net/clusterip/nginx.yaml --force --wait=false
   
 #方法2
-kubectl delete pod my-pod -n k8s-net-test
-kubectl delete service my-service -n k8s-net-test
+kubectl delete pod nginx-pod -n k8s-net-test
+kubectl delete service nginx-service -n k8s-net-test
 kubectl delete namespace k8s-net-test
 
 #方法3
-kubectl delete pod my-pod service my-service namespace k8s-net-test -n k8s-net-test
+kubectl delete pod nginx-pod service nginx-service namespace k8s-net-test -n k8s-net-test
 
 #方法4
 kubectl delete namespace k8s-net-test
@@ -28,12 +28,12 @@ kube-system    pod/kube-proxy-cnqd7                1/1     Running   0          
 kube-system    pod/kube-proxy-dqfwb                1/1     Running   0                4h54m   172.16.166.140   k8s03   <none>           <none>
 kube-system    pod/kube-proxy-vzp5j                1/1     Running   0                5h29m   172.16.166.138   k8s01   <none>           <none>
 kube-system    pod/kube-scheduler-k8s01            1/1     Running   105 (168m ago)   5h29m   172.16.166.138   k8s01   <none>           <none>
-k8s-net-test   pod/my-pod                          1/1     Running   0                115s    10.244.2.11      k8s03   <none>           <none>
+k8s-net-test   pod/nginx-pod                          1/1     Running   0                115s    10.244.2.11      k8s03   <none>           <none>
 
 NAMESPACE      NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE     SELECTOR
 default        service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP                  5h29m   <none>
 kube-system    service/kube-dns     ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   5h29m   k8s-app=kube-dns
-k8s-net-test   service/my-service   ClusterIP   10.96.131.186   <none>        80/TCP                   115s    app=my-app
+k8s-net-test   service/nginx-service   ClusterIP   10.96.131.186   <none>        80/TCP                   115s    app=nginx-app
 
 NAMESPACE      NAME                             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE     CONTAINERS     IMAGES                                                       SELECTOR
 kube-flannel   daemonset.apps/kube-flannel-ds   3         3         3       3            3           <none>                   175m    kube-flannel   rancher/mirrored-flannelcni-flannel:v0.18.0                  app=flannel
