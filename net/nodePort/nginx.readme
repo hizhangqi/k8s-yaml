@@ -1,0 +1,74 @@
+#安装
+kubectl apply -f /opt/k8s/k8s-yaml/net/nodePort/nginx.yaml
+#删除
+kubectl delete -f /opt/k8s/k8s-yaml/net/nodePort/nginx.yaml --force --wait=false
+  
+[root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-5jbvh            1/1     Running   0          17s    10.244.1.26      k8s02   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-9n68m            1/1     Running   0          17s    10.244.2.17      k8s03   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-bhfkj            1/1     Running   0          17s    10.244.2.18      k8s03   <none>           <none>
+k8s-net-test           pod/nginx-deployment-6c9fd56bbc-pwg6g            1/1     Running   0          17s    10.244.1.27      k8s02   <none>           <none>
+k8s-net-test           service/nginx-service               NodePort    10.96.237.109   <none>        80:30080/TCP             17s   app=nginx-app
+k8s-net-test           deployment.apps/nginx-deployment            4/4     4            4           17s   nginx                       nginx:latest                                              app=nginx-app
+k8s-net-test           replicaset.apps/nginx-deployment-6c9fd56bbc            4         4         4       17s    nginx                       nginx:latest                                              app=nginx-app,pod-template-hash=6c9fd56bbc
+
+#service 访问 pod #各个节点都可以访问
+[root@k8s01 ~]# curl 10.96.237.109
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+       font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+  </head>
+  <body>
+  <h1>Welcome to nginx!</h1>
+  <p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+#通过pod IP访问各个节点都可以访问
+[root@k8s01 ~]# curl 10.244.1.26
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+       font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+  </head>
+  <body>
+  <h1>Welcome to nginx!</h1>
+  <p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+kubectl exec -it nginx-deployment-6c9fd56bbc-5jbvh -n k8s-net-test -- /bin/bash
+curl 10.96.237.109
+curl 10.244.2.17
+curl 10.244.2.18
+curl 10.244.1.27
+
+都可以访问成功
+
