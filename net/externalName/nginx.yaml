@@ -4,40 +4,18 @@ kind: Namespace
 metadata:
   name: k8s-net-test
 ---
-# 创建一个 Deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  namespace: k8s-net-test
-spec:
-  replicas: 4
-  selector:
-    matchLabels:
-      app: nginx-app
-  template:
-    metadata:
-      labels:
-        app: nginx-app
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:latest
-          ports:
-            - containerPort: 80
----
 #创建一个NodePort Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-external-service
+  name: mysql-external-service
   namespace: k8s-net-test
 spec:
   selector:
-    app: nginx-app
+    app: mysql-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 3306
+      targetPort: 3306
   type: ExternalName
-  externalName: jenkins.systeminfos.com
+  externalName: 192.168.0.230
