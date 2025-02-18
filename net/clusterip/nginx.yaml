@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: my-namespace
+  name: k8s-net-test
 ---
 # 创建一个 Pod
 apiVersion: v1
 kind: Pod
 metadata:
   name: my-pod
-  namespace: my-namespace
+  namespace: k8s-net-test
   labels:
     app: my-app
 spec:
@@ -24,7 +24,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: my-service
-  namespace: my-namespace
+  namespace: k8s-net-test
 spec:
   selector:
     app: my-app
