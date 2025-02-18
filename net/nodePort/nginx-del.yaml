@@ -1,2 +1,13 @@
-kubectl delete -f nginx.yaml
+#安装
+kubectl apply -f /opt/k8s/k8s-yaml/net/nodePort/nginx.yaml
+#删除
+kubectl delete -f /opt/k8s/k8s-yaml/net/nodePort/nginx.yaml --force --wait=false
+  
+[root@k8s01 ~]# kubectl get all -A -owide | grep k8s-net
+k8s-net-test           pod/nginx-pod                                    1/1     Running   0          92s   10.244.2.14      k8s03   <none>           <none>
+k8s-net-test           service/nginx-service               ClusterIP   10.96.161.176   <none>        80/TCP                   92s   app=nginx-app
+
+#service 访问 pod
+#各个节点都可以访问
+
 
